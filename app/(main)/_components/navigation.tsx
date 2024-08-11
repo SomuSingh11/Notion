@@ -17,6 +17,42 @@ export const Navigation = () => {
   const [isResetting, setResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(isMobile); //If we're on mobile, sidebar is collapsed
 
+  const handleMouseDown = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    isResizingRef.current = true;
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleMouseMove = (event: MouseEvent) => {
+    if (!isResizingRef) return;
+
+    let newWidth = event.clientX;
+
+    if (newWidth < 240) newWidth = 240;
+    if (newWidth > 480) newWidth = 480;
+
+    if (sidebarRef.current && navbarRef.current) {
+      sidebarRef.current.style.width = `${newWidth}px`;
+      navbarRef.current.style.setProperty("left", `${newWidth}px`);
+      navbarRef.current.style.setProperty(
+        "width",
+        `calc(100% - ${newWidth}px)`
+      );
+    }
+  };
+
+  const handleMouseUp = (event: MouseEvent) => {
+    isResizingRef.current = false;
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+  };
+
   return (
     <>
       {/* Sidebar */}
@@ -46,7 +82,11 @@ export const Navigation = () => {
           <p>Documents</p>
         </div>
 
-        <div className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 top-0 right-0 bg-primary/10" />
+        <div
+          onMouseDown={handleMouseDown}
+          onClick={() => {}}
+          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 top-0 right-0 bg-primary/10"
+        />
       </aside>
 
       {/* Navbar */}
