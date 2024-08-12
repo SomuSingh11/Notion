@@ -4,6 +4,7 @@ import { ChevronsLeft, MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useRef, useState, ElementRef, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts"; //Using to create breakpoint
+import { UserItem } from "./user-item";
 
 import { cn } from "@/lib/utils";
 
@@ -126,7 +127,7 @@ export const Navigation = () => {
         </div>
 
         <div>
-          <p>Action Items</p>
+          <UserItem />
         </div>
 
         <div className="mt-4">
