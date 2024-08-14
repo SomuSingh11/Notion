@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronsLeft, MenuIcon } from "lucide-react";
+import { ChevronsLeft, MenuIcon, PlusCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useRef, useState, ElementRef, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts"; //Using to create breakpoint
@@ -8,13 +8,16 @@ import { UserItem } from "./user-item";
 
 import { cn } from "@/lib/utils";
 
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Item } from "./item";
+import { toast } from "sonner";
 
 export const Navigation = () => {
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)"); // isMobile == true if the screen width is 768 pixels or less.
   const documents = useQuery(api.documents.get);
+  const create = useMutation(api.documents.create);
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
@@ -108,6 +111,18 @@ export const Navigation = () => {
     }
   };
 
+  const handleCreate = () => {
+    const promise = create({ title: "Untitled" });
+
+    toast.promise(promise, {
+      loading: "Creating a new note...",
+      success: (title) => {
+        return `New note Created!`;
+      },
+      error: "Failed to create a new note.",
+    });
+  };
+
   return (
     <>
       {/* Sidebar */}
@@ -132,6 +147,7 @@ export const Navigation = () => {
 
         <div>
           <UserItem />
+          <Item onClick={handleCreate} label="New Page" icon={PlusCircle} />
         </div>
 
         <div className="mt-4">
