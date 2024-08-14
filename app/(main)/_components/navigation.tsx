@@ -1,6 +1,12 @@
 "use client";
 
-import { ChevronsLeft, MenuIcon, PlusCircle } from "lucide-react";
+import {
+  ChevronsLeft,
+  MenuIcon,
+  PlusCircle,
+  Search,
+  Settings,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useRef, useState, ElementRef, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts"; //Using to create breakpoint
@@ -147,6 +153,13 @@ export const Navigation = () => {
 
         <div>
           <UserItem />
+          <Item
+            label="Search"
+            icon={Search}
+            isSearch={true}
+            onClick={() => {}}
+          />
+          <Item label="Settings" icon={Settings} onClick={() => {}} />
           <Item onClick={handleCreate} label="New Page" icon={PlusCircle} />
         </div>
 
