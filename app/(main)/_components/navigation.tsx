@@ -14,15 +14,15 @@ import { UserItem } from "./user-item";
 
 import { cn } from "@/lib/utils";
 
-import { useQuery, useMutation } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Item } from "./item";
 import { toast } from "sonner";
+import { DocumentList } from "./document-list";
 
 export const Navigation = () => {
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)"); // isMobile == true if the screen width is 768 pixels or less.
-  const documents = useQuery(api.documents.get); // useQuery is primarily used for fetching data from a server (commonly associated with HTTP GET requests)
   const create = useMutation(api.documents.create); //useMutation is specifically designed for mutating or modifying data, often associated with HTTP POST, PUT, DELETE, or any other data-changing operation.
 
   const isResizingRef = useRef(false);
@@ -164,9 +164,7 @@ export const Navigation = () => {
         </div>
 
         <div className="mt-4">
-          {documents?.map((document) => {
-            return <p key={document._id}>{document.title}</p>;
-          })}
+          <DocumentList />
         </div>
 
         <div
