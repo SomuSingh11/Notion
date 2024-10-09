@@ -22,8 +22,8 @@ import { toast } from "sonner";
 export const Navigation = () => {
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)"); // isMobile == true if the screen width is 768 pixels or less.
-  const documents = useQuery(api.documents.get);
-  const create = useMutation(api.documents.create);
+  const documents = useQuery(api.documents.get); // useQuery is primarily used for fetching data from a server (commonly associated with HTTP GET requests)
+  const create = useMutation(api.documents.create); //useMutation is specifically designed for mutating or modifying data, often associated with HTTP POST, PUT, DELETE, or any other data-changing operation.
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
